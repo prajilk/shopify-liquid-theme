@@ -1,0 +1,15 @@
+
+{% for item in cart.items %}
+    <div class="flex p-2.5 gap-2.5">
+        <img src="{{ item.image | image_url: width: 150 }}" />
+        <div class="flex flex-col justify-evenly">
+            <h3 class="tracking-[.2em] uppercase text-sm">{{ item.title | truncate: 20 }}</h3>
+            {% comment %} <span class="block">{{ item.variant }}</span> {% endcomment %}
+            <span class="block tracking-[.2em] uppercase text-xs text-[#6a6a6a]">{{ item.price | money }}</span>
+            <div class="flex justify-between items-center">
+                <div></div>
+                <a href="{{ item.url_to_remove }}" class="uppercase text-[#6a6a6a] tracking-[.2rem] text-xs relative before:absolute before:w-full before:h-[1px] before:left-0 before:bottom-0 before:bg-black">Remove</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
