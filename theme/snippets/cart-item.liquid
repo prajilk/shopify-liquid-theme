@@ -1,15 +1,32 @@
+<style>
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
 
-{% for item in cart.items %}
-    <div class="flex p-2.5 gap-2.5">
-        <img src="{{ item.image | image_url: width: 150 }}" />
-        <div class="flex flex-col justify-evenly">
-            <h3 class="tracking-[.2em] uppercase text-sm">{{ item.title | truncate: 20 }}</h3>
-            {% comment %} <span class="block">{{ item.variant }}</span> {% endcomment %}
-            <span class="block tracking-[.2em] uppercase text-xs text-[#6a6a6a]">{{ item.price | money }}</span>
-            <div class="flex justify-between items-center">
-                <div></div>
-                <a href="{{ item.url_to_remove }}" class="uppercase text-[#6a6a6a] tracking-[.2rem] text-xs relative before:absolute before:w-full before:h-[1px] before:left-0 before:bottom-0 before:bg-black">Remove</a>
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+</style>
+<div class="cart-items">
+    {% for item in cart.items %}
+        <div class="flex py-3 px-4 gap-2.5">
+            <img src="{{ item.image | image_url: width: 150 }}" />
+            <div class="flex flex-col justify-evenly w-full gap-5">
+                <h3 class="tracking-[.2em] uppercase text-sm">{{ item.title | truncate: 20 }}</h3>
+                <span class="block tracking-[.2em] uppercase text-xs text-[#6a6a6a]">{{ item.price | money }}</span>
+                <div class="flex justify-between items-center w-full">
+                    <div class="border border-[#dddddd] flex items-center">
+                        <button class="p-[7px_14px_8px] decrement" type="button" data-item-id="{{ item.id }}">-</button>
+                        <input type="number" value="{{ item.quantity }}" name="updates[]" class="quantity-input w-5 text-center outline-none quantity-input" data-item-id="{{ item.id }}" pattern="[0-9]*" aria-label="Quantity" min="1">
+                        <button class="p-[7px_14px_8px] increment" type="button" data-item-id="{{ item.id }}">+</button>
+                    </div>
+                    <a href="{{ item.url_to_remove }}" class="uppercase text-[#6a6a6a] tracking-[.2rem] text-xs relative before:absolute before:w-full before:h-[1px] before:left-0 before:bottom-0 before:bg-black">Remove</a>
+                </div>
             </div>
         </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>

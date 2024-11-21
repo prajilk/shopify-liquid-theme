@@ -1,0 +1,30 @@
+{% form 'cart', cart %}
+  <div id="cart" class="cart-drawer w-full z-50 lg:w-2/5 flex flex-col h-screen bg-white fixed top-0 right-0 translate-x-full transition-transform duration-500">
+    <div class="flex items-center justify-between p-5 lg:p-7 [box-shadow:0_-1px_#dddddd_inset]">
+      <span class="uppercase flex-1 lg:flex-none text-center tracking-widest text-sm lg:text-base">Cart</span>
+      <button id="cart-close-btn" type="button">
+        <svg class="size-5" role="presentation" viewBox="0 0 16 14">
+          <path d="M15 0L1 14m14 0L1 0" stroke="black" fill="none" fill-rule="evenodd"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="scrollbar-thin max-h-full h-full overflow-y-scroll">
+      {% if cart.empty? %}
+        <div class="grid place-content-center h-full">
+            <p class="uppercase tracking-[.2rem] text-sm">Your cart is empty</p>
+        </div>
+      {% else %}
+      <div>
+          {% render 'cart-item', cart: cart %}
+      </div>
+      {% endif %}
+    </div>
+
+    {% unless cart.empty? %}
+    <div class="mt-auto p-7 border-t">
+      <button id="card-total" type="submit" name="checkout" class="w-full py-3 text-center bg-black text-white active:scale-95 duration-500 transition-transform">CHECKOUT {{ cart.total_price | money }}</button>
+    </div>
+    {% endunless %}
+  </div>
+{% endform %}

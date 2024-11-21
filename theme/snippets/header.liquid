@@ -12,6 +12,11 @@
 .open-sidebar, .open-cart {
   transform: translateX(0);
 }
+
+#overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
 </style>
 
 <div class="sticky top-0 bg-white">
@@ -55,15 +60,17 @@
             <li class="text-[#6a6a6a] cursor-pointer uppercase tracking-widest text-sm hidden lg:block">Account</li>
             
             {% comment %} Cart {% endcomment %}
-            <li class="uppercase cursor-pointer tracking-widest text-sm hidden lg:block">Cart ({{ cart.item_count }})</li>
+             <a href="/cart">
+             <li class="cart-total uppercase cursor-pointer tracking-widest text-sm hidden lg:block">Cart ({{ cart.item_count }})</li>
+             </a>
             
             {% comment %} Cart ICON {% endcomment %}
             <li>
-              <button onclick="openCart()" id="cart-icon" class="relative lg:hidden before:hidden before:absolute before:size-2 before:bg-black before:rounded-full before:-right-1 before:top-0 before:border-2 before:border-white before:box-content">
+              <a href="/cart" class="relative lg:hidden before:hidden before:absolute before:size-2 before:bg-black before:rounded-full before:-right-1 before:top-0 before:border-2 before:border-white before:box-content">
                 <svg class="size-5" role="presentation" viewBox="0 0 17 20">
                   <path d="M0 20V4.995l1 .006v.015l4-.002V4c0-2.484 1.274-4 3.5-4C10.518 0 12 1.48 12 4v1.012l5-.003v.985H1V19h15V6.005h1V20H0zM11 4.49C11 2.267 10.507 1 8.5 1 6.5 1 6 2.27 6 4.49V5l5-.002V4.49z" fill="currentColor"></path>
                 </svg>
-              </button>
+              </a>
             </li>
           </ul>
         </div>
@@ -92,7 +99,7 @@
 </div>
 
 {% comment %} Sidebar menu {% endcomment %}
-<div id="sidebar" class="w-full h-screen p-5 bg-[#1c1b1b] fixed top-0 -translate-x-full transition-transform duration-500">
+<div id="sidebar" class="w-full h-screen p-5 bg-[#1c1b1b] fixed top-0 -translate-x-full transition-transform duration-500 z-50">
     <button onclick="closeSidebar()">
       <svg class="size-5" role="presentation" viewBox="0 0 16 14">
         <path d="M15 0L1 14m14 0L1 0" stroke="white" fill="none" fill-rule="evenodd"></path>
@@ -101,42 +108,13 @@
 </div>
 
 {% comment %} Cart menu {% endcomment %}
-<div id="cart" class="w-full flex flex-col h-screen bg-white fixed top-0 translate-x-full transition-transform duration-500">
-  <div class="flex items-center p-5 [box-shadow:0_-1px_#dddddd_inset]">
-    <span class="uppercase flex-1 text-center tracking-widest text-sm">Cart</span>
-    <button onclick="closeCart()">
-      <svg class="size-5" role="presentation" viewBox="0 0 16 14">
-        <path d="M15 0L1 14m14 0L1 0" stroke="black" fill="none" fill-rule="evenodd"></path>
-      </svg>
-    </button>
-  </div>
-  {% comment %} <hr /> {% endcomment %}
-  <div class="flex-1">
-    {% if cart.item_count == 0 %}
-      <div class="grid place-content-center h-full">
-          <p class="uppercase tracking-[.2rem] text-sm">Your cart is empty</p>
-      </div>
-    {% else %}
-      {% render 'cart-item', cart: cart %}
-    {% endif %}
-  </div>
-</div>
+{% render 'cart-drawer' %}
+
+{% comment %} Overlay {% endcomment %}
+{% render 'overlay' %}
 
 <script>
   if({{cart.item_count}} > 0) {
     document.getElementById("cart-icon").classList.add("show-before");
-  }
-
-  function openSidebar() {
-    document.getElementById("sidebar").classList.add("open-sidebar")
-  }
-  function closeSidebar() {
-    document.getElementById("sidebar").classList.remove("open-sidebar")
-  }
-  function openCart() {
-    document.getElementById("cart").classList.add("open-cart")
-  }
-  function closeCart() {
-    document.getElementById("cart").classList.remove("open-cart")
   }
 </script>
